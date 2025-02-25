@@ -17,7 +17,7 @@ Sortir du conteneur puis arrêter/supprimer le conteneur :
 
 ## Publication DockerHub
 Voir le dernier nom/version de l'image sur DockerHub.
-Incrementer la version (-vX) en fonction: `allsoftware/symfony:6-php-8.2-vX`
+Incrementer la version (-vX) en fonction: `allsoftware/symfony:6-php-8.3-vX`
 
 ### Publier
 Pour publier l'image :

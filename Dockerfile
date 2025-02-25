@@ -1,4 +1,4 @@
-FROM php:8.1-apache-bookworm
+FROM php:8.3-apache-bookworm
 
 # wget & gnupg
 RUN apt -y update && apt install -y wget gnupg
@@ -73,8 +73,7 @@ RUN apt install -y weasyprint
 RUN apt install -y libreoffice
 
 # XDebug
-# Forced to 3.2.2 due to https://bugs.xdebug.org/view.php?id=2253#c6894
-RUN yes | pecl install xdebug-3.2.2 \
+RUN yes | pecl install xdebug \
 	&& echo extension=apcu.so > /usr/local/etc/php/conf.d/apcu.ini
 
 # xdebug_state
