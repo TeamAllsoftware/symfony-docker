@@ -1,10 +1,10 @@
-FROM php:8.3-apache-bookworm
+FROM php:8.5-apache-bookworm
 
 # wget & gnupg
 RUN apt -y update && apt install -y wget gnupg
 
-# Node 20
-RUN curl -sL https://deb.nodesource.com/setup_20.x | bash -
+# Node 24
+RUN curl -sL https://deb.nodesource.com/setup_24.x | bash -
 
 # Yarn
 RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
@@ -53,11 +53,18 @@ RUN docker-php-ext-install gd
 # XSL - PHP
 RUN docker-php-ext-configure xsl
 
+# Gestionnaire de cache
 RUN pecl install apcu \
-&& docker-php-ext-install -j$(nproc) pdo_mysql \
-&& docker-php-ext-install soap zip xsl intl \
-&& ln -s /usr/include/x86_64-linux-gnu/gmp.h /usr/include/gmp.h \
-&& docker-php-ext-install -j$(nproc) gmp opcache
+  && docker-php-ext-enable apcu
+
+# Mysql
+RUN docker-php-ext-install -j$(nproc) pdo_mysql
+
+# Lib des entiers, des nombres rationnels et des nombres à virgule flottante de précision arbitraire
+RUN ln -s /usr/include/x86_64-linux-gnu/gmp.h /usr/include/gmp.h \
+  && docker-php-ext-install -j$(nproc) gmp
+
+RUN docker-php-ext-install soap zip xsl intl
 
 # Composer
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
@@ -73,8 +80,8 @@ RUN apt install -y weasyprint
 RUN apt install -y libreoffice
 
 # XDebug
-RUN yes | pecl install xdebug \
-	&& echo extension=apcu.so > /usr/local/etc/php/conf.d/apcu.ini
+RUN pecl install xdebug \
+  && docker-php-ext-enable xdebug
 
 # xdebug_state
 COPY xdebug_state.sh /usr/bin/xdebug_state
@@ -97,13 +104,6 @@ ENV PATH="/root/.ebcli-virtual-env/executables:$PATH"
 # AWS cli
 RUN apt install -y awscli
 
-# Creation dossier sessions
-RUN mkdir -p /var/lib/php/sessions && chown -R www-data.www-data /var/lib/php/sessions
-# Creation dossier symfony
-RUN mkdir -p /tmp/symfony && chown -R www-data.www-data /tmp/symfony
-
-RUN a2enmod rewrite
-
 # Geckodriver
 ENV GECKODRIVER_VERSION=0.28.0
 RUN wget -q https://github.com/mozilla/geckodriver/releases/download/v$GECKODRIVER_VERSION/geckodriver-v$GECKODRIVER_VERSION-linux64.tar.gz && \
@@ -114,8 +114,15 @@ RUN wget -q https://github.com/mozilla/geckodriver/releases/download/v$GECKODRIV
 RUN apt install -y firefox-esr
 
 ## PHPUnit
-# RUN wget -O phpunit https://phar.phpunit.de/phpunit-9.phar && \
-#    chmod +x phpunit && \
-#    mv phpunit /usr/local/bin/phpunit
+ RUN wget -O phpunit https://phar.phpunit.de/phpunit-9.phar && \
+    chmod +x phpunit && \
+    mv phpunit /usr/local/bin/phpunit
+
+# Creation dossier sessions
+RUN mkdir -p /var/lib/php/sessions && chown -R www-data.www-data /var/lib/php/sessions
+# Creation dossier symfony
+RUN mkdir -p /tmp/symfony && chown -R www-data.www-data /tmp/symfony
+
+RUN a2enmod rewrite
 
 RUN sed -i "s/DocumentRoot .*/DocumentRoot \/var\/www\/html\/public/" /etc/apache2/sites-available/000-default.conf
