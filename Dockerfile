@@ -94,7 +94,7 @@ RUN apt install -y python3-virtualenv python-is-python3
 
 # Symfony CLI
 RUN curl -1sLf 'https://dl.cloudsmith.io/public/symfony/stable/setup.deb.sh' | bash
-RUN apt install symfony-cli -y
+RUN apt install -y symfony-cli
 
 # AWS eb-cli
 RUN git clone https://github.com/aws/aws-elastic-beanstalk-cli-setup.git \
