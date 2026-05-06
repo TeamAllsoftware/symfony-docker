@@ -22,7 +22,7 @@ Incrementer la version `-vX` en fonction: `allsoftware/symfony:7-php-8.5-vX`
 ### Publier
 Pour publier l'image :
 - `docker login`
-- `docker build -t [IMAGE:nouveau_tag] .`, ex : `docker build -t allsoftware/symfony:7-php-8.5-v1 .`
-- `docker push [IMAGE:nouveau_tag]`, ex : `docker push allsoftware/symfony:7-php-8.5-v1`
+- `docker build -t [IMAGE:nouveau_tag] .`, ex : `docker build -t allsoftware/symfony:7-php-8.5-v2 .`
+- `docker push [IMAGE:nouveau_tag]`, ex : `docker push allsoftware/symfony:7-php-8.5-v2`
 
 Voir plus sur : `O:\Documentation\DockerHub\Création d'image dockerhub.txt`
