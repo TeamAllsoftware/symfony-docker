@@ -118,10 +118,13 @@ RUN curl -fsSL "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "aw
     && rm -rf aws awscliv2.zip
 
 # Geckodriver
-ENV GECKODRIVER_VERSION=0.28.0
-RUN wget -q https://github.com/mozilla/geckodriver/releases/download/v$GECKODRIVER_VERSION/geckodriver-v$GECKODRIVER_VERSION-linux64.tar.gz && \
-    tar -zxf geckodriver-v$GECKODRIVER_VERSION-linux64.tar.gz -C /usr/bin && \
-    rm geckodriver-v$GECKODRIVER_VERSION-linux64.tar.gz
+ENV GECKODRIVER_VERSION=0.36.0
+RUN curl -fsSL \
+        "https://github.com/mozilla/geckodriver/releases/download/v${GECKODRIVER_VERSION}/geckodriver-v${GECKODRIVER_VERSION}-linux64.tar.gz" \
+        -o /tmp/geckodriver.tar.gz \
+    && tar -xzf /tmp/geckodriver.tar.gz -C /usr/local/bin \
+    && chmod +x /usr/local/bin/geckodriver \
+    && rm /tmp/geckodriver.tar.gz
 
 # Navigateur Firefox
 RUN apt-get update \
