@@ -1,4 +1,4 @@
-FROM php:8.5-apache-bookworm
+FROM php:8.4-apache-bookworm
 
 # Base OS tools
 RUN apt-get update && apt-get install -y \
