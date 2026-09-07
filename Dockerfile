@@ -26,7 +26,7 @@ RUN curl -fsSL https://deb.nodesource.com/setup_26.x | bash - \
 # Yarn
 RUN npm install -g corepack \
     && corepack enable \
-    && corepack prepare yarn@4.18.0 --activate
+    && corepack prepare yarn@1.22.22 --activate
 
 # Gitlab-Runner
 RUN curl -L "https://packages.gitlab.com/install/repositories/runner/gitlab-runner/script.deb.sh" | bash \
