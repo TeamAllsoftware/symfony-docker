@@ -75,7 +75,12 @@ COPY --from=composer:2 /usr/bin/composer /usr/local/bin/composer
 # WeasyPrint
 # https://doc.courtbouillon.org/weasyprint/stable/first_steps.html#debian-11
 RUN apt-get update \
-    && apt-get install -y weasyprint \
+    && apt-get install -y --no-install-recommends \
+        python3-pip python3-venv \
+        libpango-1.0-0 libpangoft2-1.0-0 libharfbuzz-subset0 \
+    && python3 -m venv /opt/weasyprint \
+    && /opt/weasyprint/bin/pip install --no-cache-dir "weasyprint==70.*" \
+    && ln -s /opt/weasyprint/bin/weasyprint /usr/bin/weasyprint \
     && rm -rf /var/lib/apt/lists/*
 
 # Libreoffice
