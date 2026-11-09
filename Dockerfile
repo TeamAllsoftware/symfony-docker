@@ -1,4 +1,4 @@
-FROM php:8.4-apache-bookworm
+FROM php:8.3-apache-bookworm
 
 # Base OS tools
 RUN apt-get update && apt-get install -y \
@@ -18,7 +18,7 @@ RUN apt-get update && apt-get install -y \
 RUN apt-get update && apt-get install -y python3 python3-virtualenv python-is-python3 \
     && rm -rf /var/lib/apt/lists/*
 
-# Node 24
+# Node 20
 RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
     && apt-get update && apt-get install -y nodejs \
     && rm -rf /var/lib/apt/lists/*
