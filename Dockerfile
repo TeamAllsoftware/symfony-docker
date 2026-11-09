@@ -19,7 +19,7 @@ RUN apt-get update && apt-get install -y python3 python3-virtualenv python-is-py
     && rm -rf /var/lib/apt/lists/*
 
 # Node 24
-RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
     && apt-get update && apt-get install -y nodejs \
     && rm -rf /var/lib/apt/lists/*
 
